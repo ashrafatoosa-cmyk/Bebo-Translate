@@ -6,9 +6,23 @@ const statusText = voiceIndicator.querySelector('.status-text');
 const srcSelect = document.getElementById('source-lang-select');
 const targetSelect = document.getElementById('target-lang-select');
 const swapBtn = document.getElementById('swap-languages');
+const ttsToggle = document.getElementById('tts-toggle');
+const video = document.getElementById('webcam');
 
 let isListening = false;
 let recognition;
+let speechStream = null;
+
+// Initialize Camera
+async function initCamera() {
+    try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+        video.srcObject = stream;
+    } catch (err) {
+        console.error('Error accessing camera:', err);
+        alert('Could not access camera. Please ensure you have given permission.');
+    }
+}
 
 // Initialize Web Speech API
 if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
@@ -48,7 +62,11 @@ if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
         const fullText = finalTranscript || interimTranscript;
         if (fullText) {
             sourceText.value = fullText;
-            debounceTranslate(fullText);
+            if (finalTranscript) {
+                translateText(finalTranscript, true);
+            } else {
+                debounceTranslate(interimTranscript);
+            }
         }
     };
 
@@ -66,14 +84,13 @@ let translateTimeout;
 function debounceTranslate(text) {
     clearTimeout(translateTimeout);
     translateTimeout = setTimeout(() => {
-        translateText(text);
-    }, 500);
+        translateText(text, false);
+    }, 1000);
 }
 
-async function translateText(text) {
+async function translateText(text, shouldSpeak) {
     if (!text.trim()) return;
 
-    // Extract language codes from the select values (e.g., 'en-US' -> 'en')
     const srcLang = srcSelect.value.split('-')[0];
     const targetLang = targetSelect.value.split('-')[0];
 
@@ -83,11 +100,34 @@ async function translateText(text) {
         const response = await fetch(url);
         const data = await response.json();
         if (data.responseData) {
-            targetText.value = data.responseData.translatedText;
+            const translated = data.responseData.translatedText;
+            targetText.value = translated;
+
+            if (shouldSpeak && ttsToggle.checked) {
+                speakText(translated, targetSelect.value);
+            }
         }
     } catch (error) {
         console.error('Translation error:', error);
-        targetText.value = 'Translation failed. Please check your connection.';
+        targetText.value = 'Translation failed.';
+    }
+}
+
+// Text-to-Speech Logic
+function speakText(text, lang) {
+    if ('speechSynthesis' in window) {
+        // Cancel any ongoing speech
+        window.speechSynthesis.cancel();
+
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = lang;
+
+        // Find a matching voice for the target language (best effort)
+        const voices = window.speechSynthesis.getVoices();
+        const voice = voices.find(v => v.lang.startsWith(lang.split('-')[0]));
+        if (voice) utterance.voice = voice;
+
+        window.speechSynthesis.speak(utterance);
     }
 }
 
@@ -104,12 +144,8 @@ swapBtn.addEventListener('click', () => {
     const tempValue = srcSelect.value;
     srcSelect.value = targetSelect.value;
     targetSelect.value = tempValue;
-
-    // Clear fields on swap
     sourceText.value = '';
     targetText.value = '';
-
-    // Restart recognition if it was active
     if (isListening) {
         stopListening();
         startListening();
@@ -125,7 +161,10 @@ function stopListening() {
     recognition.stop();
 }
 
-// Allow typing to translate as well
+// Initialize on page load
+initCamera();
+
+// Allow typing to translate
 sourceText.addEventListener('input', () => {
     debounceTranslate(sourceText.value);
 });

@@ -50,8 +50,25 @@
                         <option value="it-IT">Italian</option>
                     </select>
                 </div>
+                <div class="toggle-group">
+                    <label class="switch">
+                        <input type="checkbox" id="tts-toggle" checked>
+                        <span class="slider round"></span>
+                    </label>
+                    <span class="toggle-label">Speak Result (TTS)</span>
+                </div>
             </div>
         </header>
+
+        <section class="live-feed-section">
+            <div class="video-container">
+                <video id="webcam" autoplay playsinline muted></video>
+                <div class="video-overlay">
+                    <div class="rec-dot"></div>
+                    <span>LIVE FEED</span>
+                </div>
+            </div>
+        </section>
 
         <section class="translation-area">
             <div class="card source-card">

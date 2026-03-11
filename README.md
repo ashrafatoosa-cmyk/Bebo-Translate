@@ -4,10 +4,10 @@ A professional, real-time voice-to-text translation application supporting multi
 
 ## ✨ Features
 
-- **Multi-Language Support**: Selection dropdowns for Source and Target languages.
-- **Real-time Voice Input**: Uses the Web Speech API for low-latency voice-to-text translation.
-- **Professional Design**: Clean, minimalist UI using the 'Inter' typeface and subtile shadows.
-- **Responsive Layout**: Works seamlessly on desktop and mobile.
+- **Live Video Capture**: Real-time webcam feed integrated into the dashboard.
+- **Text-to-Speech (TTS)**: Speak translated results aloud with a toggleable switch.
+- **Multi-Language Support**: Selection dropdowns for Source and Target languages (EN, FI, ES, ZH, UR, NE, etc.).
+- **Real-time Voice Input**: Uses the Web Speech API for low-latency translation.
 
 ## 🚀 Getting Started
 
