@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bebo Translate | FI-EN Voice Translator</title>
+    <meta name="description"
+        content="Real-time Finnish to English and English to Finnish voice translator with zero latency feel.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="aurora-bg"></div>
+
+    <main class="app-container">
+        <header>
+            <div class="logo">
+                <span class="icon">🌐</span>
+                <h1>Bebo<span>Translate</span></h1>
+            </div>
+            <div class="controls">
+                <button id="toggle-lang" class="btn-toggle" aria-label="Toggle Language Direction">
+                    <span id="src-label">EN</span>
+                    <span class="arrow">⇄</span>
+                    <span id="target-label">FI</span>
+                </button>
+            </div>
+        </header>
+
+        <section class="translation-area">
+            <div class="card source-card" id="source-card">
+                <div class="card-header">
+                    <span class="lang-tag" id="source-lang-name">English</span>
+                    <div class="status-indicator" id="voice-indicator">
+                        <span class="dot"></span>
+                        <span class="status-text">Ready</span>
+                    </div>
+                </div>
+                <div class="text-content">
+                    <textarea id="source-text" placeholder="Start speaking..." readonly></textarea>
+                </div>
+            </div>
+
+            <div class="card target-card">
+                <div class="card-header">
+                    <span class="lang-tag" id="target-lang-name">Finnish</span>
+                </div>
+                <div class="text-content">
+                    <textarea id="target-text" placeholder="Translation will appear here..." readonly></textarea>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <button id="start-btn" class="btn-primary">
+                <span class="icon">🎤</span>
+                <span class="btn-text">Start Listening</span>
+            </button>
+            <p class="hint">Click the button and start speaking. The translation happens in real-time.</p>
+        </footer>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
