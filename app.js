@@ -1,17 +1,14 @@
 const startBtn = document.getElementById('start-btn');
-const toggleBtn = document.getElementById('toggle-lang');
 const sourceText = document.getElementById('source-text');
 const targetText = document.getElementById('target-text');
 const voiceIndicator = document.getElementById('voice-indicator');
 const statusText = voiceIndicator.querySelector('.status-text');
-const srcLabel = document.getElementById('src-label');
-const targetLabel = document.getElementById('target-label');
-const srcLangName = document.getElementById('source-lang-name');
-const targetLangName = document.getElementById('target-lang-name');
+const srcSelect = document.getElementById('source-lang-select');
+const targetSelect = document.getElementById('target-lang-select');
+const swapBtn = document.getElementById('swap-languages');
 
 let isListening = false;
 let recognition;
-let currentMode = 'en-fi'; // 'en-fi' or 'fi-en'
 
 // Initialize Web Speech API
 if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
@@ -70,14 +67,17 @@ function debounceTranslate(text) {
     clearTimeout(translateTimeout);
     translateTimeout = setTimeout(() => {
         translateText(text);
-    }, 500); // Wait for 500ms of silence before translating
+    }, 500);
 }
 
 async function translateText(text) {
     if (!text.trim()) return;
 
-    const [src, target] = currentMode.split('-');
-    const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${src}|${target}`;
+    // Extract language codes from the select values (e.g., 'en-US' -> 'en')
+    const srcLang = srcSelect.value.split('-')[0];
+    const targetLang = targetSelect.value.split('-')[0];
+
+    const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${srcLang}|${targetLang}`;
 
     try {
         const response = await fetch(url);
@@ -100,42 +100,32 @@ startBtn.addEventListener('click', () => {
     }
 });
 
-toggleBtn.addEventListener('click', () => {
-    if (currentMode === 'en-fi') {
-        currentMode = 'fi-en';
-        srcLabel.textContent = 'FI';
-        targetLabel.textContent = 'EN';
-        srcLangName.textContent = 'Finnish';
-        targetLangName.textContent = 'English';
-        sourceText.placeholder = 'Aloita puhuminen...';
-        targetText.placeholder = 'Käännös ilmestyy tähän...';
-    } else {
-        currentMode = 'en-fi';
-        srcLabel.textContent = 'EN';
-        targetLabel.textContent = 'FI';
-        srcLangName.textContent = 'English';
-        targetLangName.textContent = 'Finnish';
-        sourceText.placeholder = 'Start speaking...';
-        targetText.placeholder = 'Translation will appear here...';
-    }
-    
-    // Update recognition language
+swapBtn.addEventListener('click', () => {
+    const tempValue = srcSelect.value;
+    srcSelect.value = targetSelect.value;
+    targetSelect.value = tempValue;
+
+    // Clear fields on swap
+    sourceText.value = '';
+    targetText.value = '';
+
+    // Restart recognition if it was active
     if (isListening) {
         stopListening();
         startListening();
     }
-    
-    // Clear fields on toggle
-    sourceText.value = '';
-    targetText.value = '';
 });
 
 function startListening() {
-    const lang = currentMode === 'en-fi' ? 'en-US' : 'fi-FI';
-    recognition.lang = lang;
+    recognition.lang = srcSelect.value;
     recognition.start();
 }
 
 function stopListening() {
     recognition.stop();
 }
+
+// Allow typing to translate as well
+sourceText.addEventListener('input', () => {
+    debounceTranslate(sourceText.value);
+});

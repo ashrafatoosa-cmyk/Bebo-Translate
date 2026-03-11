@@ -1,14 +1,13 @@
 # Bebo Translate 🌐
 
-A premium, real-time voice-to-text translation application focusing on Finnish and English. Built with a modern Aurora Midnight aesthetic, it provides a seamless and immersive translation experience.
+A professional, real-time voice-to-text translation application supporting multiple languages including English, Finnish, Spanish, Chinese, Urdu, and Nepali. Built with a sober, modern aesthetic for professional use cases.
 
 ## ✨ Features
 
-- **Real-time Voice Input**: Uses the Web Speech API for low-latency voice-to-text transcription.
-- **Bi-directional Translation**: Easily toggle between English-to-Finnish and Finnish-to-English.
-- **Aurora Midnight Design System**: A stunning dark-themed UI with glassmorphism, dynamic gradients, and smooth micro-animations.
-- **Zero-Latency Feel**: Interim results are shown immediately as you speak, with translations following shortly after.
-- **Responsive Layout**: Works beautifully on both desktop and mobile devices.
+- **Multi-Language Support**: Selection dropdowns for Source and Target languages.
+- **Real-time Voice Input**: Uses the Web Speech API for low-latency voice-to-text translation.
+- **Professional Design**: Clean, minimalist UI using the 'Inter' typeface and subtile shadows.
+- **Responsive Layout**: Works seamlessly on desktop and mobile.
 
 ## 🚀 Getting Started
 
@@ -38,7 +37,7 @@ You need a modern web browser that supports the Web Speech API (e.g., Google Chr
 
 ## 🎨 Design Philosophy
 
-Bebo Translate is designed to feel premium and alive. The background features a drifting aurora gradient that adds depth and motion. Glassmorphism cards provide a clean, modern look, while subtle pulses and hover effects enhance the user experience.
+Bebo Translate is designed to be a sober, professional tool. It prioritizes clarity and legibility by using the Inter font family on a clean, light workspace. The interface is intentionally minimalist to reduce cognitive load while maintaining a premium, modern feel through subtle gradients and shadows.
 
 ---
 Created with ❤️ for Xamk - AI in Practice Course.

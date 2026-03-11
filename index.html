@@ -4,52 +4,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bebo Translate | FI-EN Voice Translator</title>
+    <title>Bebo Translate | Professional Multi-Language Translator</title>
     <meta name="description"
-        content="Real-time Finnish to English and English to Finnish voice translator with zero latency feel.">
+        content="Professional real-time voice translator supporting English, Finnish, Spanish, Chinese, Urdu, Nepali, and more.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;900&family=Fira+Code:wght@300;400;500&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-    <div class="aurora-bg"></div>
-
     <main class="app-container">
         <header>
             <div class="logo">
                 <span class="icon">🌐</span>
                 <h1>Bebo<span>Translate</span></h1>
             </div>
-            <div class="controls">
-                <button id="toggle-lang" class="btn-toggle" aria-label="Toggle Language Direction">
-                    <span id="src-label">EN</span>
-                    <span class="arrow">⇄</span>
-                    <span id="target-label">FI</span>
-                </button>
+            <div class="language-selection">
+                <div class="select-group">
+                    <label for="source-lang-select">From:</label>
+                    <select id="source-lang-select">
+                        <option value="en-US">English</option>
+                        <option value="fi-FI">Finnish</option>
+                        <option value="es-ES">Spanish</option>
+                        <option value="zh-CN">Chinese (Simplified)</option>
+                        <option value="ur-PK">Urdu</option>
+                        <option value="ne-NP">Nepali</option>
+                        <option value="fr-FR">French</option>
+                        <option value="de-DE">German</option>
+                        <option value="it-IT">Italian</option>
+                    </select>
+                </div>
+                <button id="swap-languages" class="btn-icon" title="Swap Languages">⇄</button>
+                <div class="select-group">
+                    <label for="target-lang-select">To:</label>
+                    <select id="target-lang-select">
+                        <option value="fi-FI">Finnish</option>
+                        <option value="en-US" selected>English</option>
+                        <option value="es-ES">Spanish</option>
+                        <option value="zh-CN">Chinese (Simplified)</option>
+                        <option value="ur-PK">Urdu</option>
+                        <option value="ne-NP">Nepali</option>
+                        <option value="fr-FR">French</option>
+                        <option value="de-DE">German</option>
+                        <option value="it-IT">Italian</option>
+                    </select>
+                </div>
             </div>
         </header>
 
         <section class="translation-area">
-            <div class="card source-card" id="source-card">
+            <div class="card source-card">
                 <div class="card-header">
-                    <span class="lang-tag" id="source-lang-name">English</span>
-                    <div class="status-indicator" id="voice-indicator">
+                    <span class="status-indicator" id="voice-indicator">
                         <span class="dot"></span>
                         <span class="status-text">Ready</span>
-                    </div>
+                    </span>
                 </div>
                 <div class="text-content">
-                    <textarea id="source-text" placeholder="Start speaking..." readonly></textarea>
+                    <textarea id="source-text" placeholder="Click 'Start Listening' and speak..."></textarea>
                 </div>
             </div>
 
             <div class="card target-card">
                 <div class="card-header">
-                    <span class="lang-tag" id="target-lang-name">Finnish</span>
+                    <span class="translation-label">Translation</span>
                 </div>
                 <div class="text-content">
                     <textarea id="target-text" placeholder="Translation will appear here..." readonly></textarea>
@@ -62,7 +81,7 @@
                 <span class="icon">🎤</span>
                 <span class="btn-text">Start Listening</span>
             </button>
-            <p class="hint">Click the button and start speaking. The translation happens in real-time.</p>
+            <p class="hint">Microphone access is required for voice translation.</p>
         </footer>
     </main>
 
