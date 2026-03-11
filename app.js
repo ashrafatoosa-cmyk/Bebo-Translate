@@ -15,12 +15,38 @@ let speechStream = null;
 
 // Initialize Camera
 async function initCamera() {
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        console.error('MediaDevices API not supported in this browser.');
+        statusText.textContent = 'Camera not supported in this browser.';
+        return;
+    }
+
     try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
-        video.srcObject = stream;
+        const stream = await navigator.mediaDevices.getUserMedia({
+            video: {
+                width: { ideal: 1280 },
+                height: { ideal: 720 },
+                facingMode: "user"
+            },
+            audio: false
+        });
+
+        if (video) {
+            video.srcObject = stream;
+            video.onloadedmetadata = () => {
+                video.play();
+                console.log('Camera started successfully');
+            };
+        }
     } catch (err) {
         console.error('Error accessing camera:', err);
-        alert('Could not access camera. Please ensure you have given permission.');
+        let errorMsg = 'Could not access camera.';
+        if (err.name === 'NotAllowedError') errorMsg = 'Camera permission denied. Please allow access in browser settings.';
+        else if (err.name === 'NotFoundError') errorMsg = 'No camera found on this device.';
+        else if (err.name === 'NotReadableError') errorMsg = 'Camera is already in use by another application.';
+
+        statusText.textContent = errorMsg;
+        alert(errorMsg);
     }
 }
 
